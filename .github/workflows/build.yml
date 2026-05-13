@@ -1,0 +1,21 @@
+yamlname: Build EXE
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Installa dipendenze
+        run: pip install pyserial pyinstaller
+
+      - name: Compila EXE
+        run: pyinstaller --onefile --console --name "COM1_HexReader" com1_hex_reader.py
+
+      - name: Carica artefatto
+        uses: actions/upload-artifact@v4
+        with:
+          name: COM1_HexReader
+          path: dist/COM1_HexReader.exe
